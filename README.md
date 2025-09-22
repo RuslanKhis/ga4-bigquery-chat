@@ -213,17 +213,6 @@ Once the script completes successfully, your CI/CD pipeline is live. **You can n
 
 ---
 
-## How the Application Works
-
-The application provides a conversational interface for querying your GA4 data.
-
-1.  **Chat Interface**: The user asks a question in a chat window (e.g., "how many active users were there yesterday?").
-2.  **Intent Routing**: The question is sent to the Gemini API. Using a library of predefined SQL templates in `query_template_library.py`, Gemini decides which template is most appropriate.
-3.  **Parameter Extraction**: Gemini also extracts necessary parameters from the question (e.g., `start_date='20240101'`, `end_date='20240101'`).
-4.  **Query Execution**: The application populates the chosen SQL template with the extracted parameters and executes the query against your GA4 BigQuery export table.
-5.  **Summarization**: The query results are sent back to Gemini, which generates a user-friendly, natural language summary.
-6.  **Display**: The final answer is displayed in the chat. For transparency, an expander shows the chosen template, parameters, and the exact SQL query that was run.
-
 ## Development and Customization
 ### Customizing Example Prompts
 To update the placeholder examples users see in the chat input, edit the `placeholder` variable in `app.py`:
