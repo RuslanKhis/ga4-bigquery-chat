@@ -1,7 +1,7 @@
 # ga4-bigquery-chat
-![Main Logo](/images/ga4-chat-logo.png)
 
-# Speak with GA4: A Self-Deploying Streamlit App for BigQuery
+# Speak with GA4: An AI-Powered Conversational App for BigQuery
+![Main Logo](/images/ga4-chat-logo.png)
 
 ## Core Problem
 
