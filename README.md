@@ -26,9 +26,24 @@ The solution works by leveraging Google's Gemini model with **Function Calling**
 
 This approach empowers business users to self-serve their analytics needs with confidence, getting precise answers from BigQuery without writing a single line of SQL. It eliminates the data team bottleneck and provides a reliable, scalable, and customizable framework for GA4 data analysis.
 
+## Tech Stack
 
+This solution is built entirely on Google Cloud services and popular open-source tools, ensuring scalability, security, and ease of deployment.
 
+1.  **Python:** The core programming language for the application logic.
+2.  **Streamlit:** The web application framework used to create the interactive, chat-based user interface.
+3.  **Gemini (via Vertex AI):** Acts as the intelligent engine. It uses function calling to understand user intent, select the correct SQL template, extract parameters, and summarize the final results.
+4.  **Google BigQuery:** The data warehouse that stores the raw GA4 event data and serves as the query engine.
+5.  **Google Cloud Run:** Provides the serverless, scalable, and fully managed hosting environment for the containerized Streamlit application.
+6.  **Google Cloud Build & Artifact Registry:** Together, they form the automated CI/CD pipeline. Cloud Build automatically builds the Docker image on a `git push` and deploys it to Cloud Run, with the image stored securely in Artifact Registry.
+7.  **Docker:** Used to package the application and all its dependencies into a portable container image, ensuring consistent execution anywhere.
+8.  **Identity-Aware Proxy (IAP):** (Optional) A Google Cloud service that provides a secure authentication and authorization layer, protecting the application with Google-grade access controls.
 
+## Contributors
+**Main Contributor & Project Creator:**  
+[Russ Khissami](https://www.linkedin.com/in/russ-k-b6a48a1a6/) - *Analytics Engineer*
+
+Feel free to connect if you have questions about the implementation or want to discuss AI solutions!
 
 
 
