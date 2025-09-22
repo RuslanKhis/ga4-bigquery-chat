@@ -240,4 +240,26 @@ After adding your new template, commit and push the change to `main`. Cloud Buil
 
 **💡 Pro Tip**: The script is designed to be idempotent - you can safely re-run it after fixing issues, and it will skip already-created resources.
 
+### Troubleshooting
+
+#### IAP: "You don't have access" Error After Setup
+
+If you have successfully run the `setup.sh` script with IAP enabled but receive a "You don't have access" or a generic Google error page, the issue is almost always related to your GCP project's configuration or your browser state, not a script failure.
+
+Here are the steps to debug this, in order from most to least common:
+
+1.  **Use an Incognito Window:** Your browser may be logged into multiple Google accounts and is presenting the wrong one to IAP.
+    *   **Solution:** Open a new **Incognito or Private Browsing window** and log in fresh with only the email address you provided to the script. If this works, the problem was conflicting browser sessions.
+
+2.  **Check the OAuth Consent Screen:** This screen controls who is allowed to *attempt* to log in.
+    *   Go to the [OAuth Consent Screen page](https://console.cloud.google.com/apis/credentials/consent).
+    *   Ensure the **Publishing status** is **"In production"**.
+    *   If it is in "Testing", you must either click **"Publish App"** or go to the "Test Users" section and explicitly add your email address.
+
+3.  **Wait for IAM Propagation:** Sometimes, IAM permissions can take a few minutes to apply across all of Google's services. Wait 5 minutes, do a hard refresh (Ctrl/Cmd + Shift + R), and try again.
+
+4.  **Organizational Policies (VPC Service Controls):** If you are using a corporate Google Cloud account, your project may be inside a **VPC Service Controls perimeter**. This is a virtual firewall that can block access from the public internet, even if IAP is configured correctly.
+    *   **Solution:** You must contact your organization's Google Cloud administrators. Ask them if the project is in a service perimeter and if they can add an "ingress rule" to allow access for IAP-authenticated users. You will not be able to solve this on your own.
+
+Finally, if none of the above works, I recommend trying my simple authentication solution.
 ---
