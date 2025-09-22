@@ -251,7 +251,7 @@ print_info "Granting required system permissions for Cloud Run..."
 PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')
 GCR_SA_EMAIL="service-${PROJECT_NUMBER}@serverless-robot-prod.iam.gserviceaccount.com"
 gcloud iam service-accounts add-iam-policy-binding "$APP_SERVICE_ACCOUNT_EMAIL" --member="serviceAccount:$GCR_SA_EMAIL" --role="roles/iam.serviceAccountUser"
-gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="serviceAccount:$GCR_SA_EMAIL" --role="roles/artifactregistry.reader"
+gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="serviceAccount:$GCR_SA_EMAIL" --role="roles/artifactregistry.reader" --condition=None
 
 
 # --- 9. CREATE CLOUD BUILD TRIGGER ---
