@@ -1,7 +1,7 @@
 # ga4-bigquery-chat
 
-# Speak with GA4: An AI-Powered Conversational App for BigQuery
 ![Main Logo](/images/ga4-chat-logo.png)
+# Speak with GA4: An AI-Powered Conversational App for BigQuery
 
 ## Core Problem
 
