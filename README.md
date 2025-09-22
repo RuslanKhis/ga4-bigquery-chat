@@ -80,6 +80,23 @@ The CI/CD pipeline is fully automated to enable rapid and reliable updates:
 3.  **Store:** The newly built image is pushed to a private repository in **Google Artifact Registry** for secure storage and version management.
 4.  **Deploy:** Finally, Cloud Build deploys the new image as a new revision to the **Cloud Run** service. Cloud Run handles the update seamlessly, ensuring zero downtime for users.
 
+### Key Architectural Decision: The Query Template Library
+
+A critical design choice in this application is the separation of SQL logic from the LLM prompt. Instead of passing all 4,000+ lines of code from our ~100 query templates directly into the model's context window, we employ a more efficient and scalable two-step approach:
+
+1.  **Lightweight Prompting:** The system prompt provided to Gemini contains only a concise list of template names and their short, high-level descriptions. This keeps the context window small and focused.
+2.  **Application-Side Retrieval:** Gemini's task is simplified to mapping the user's request to the best `template_name`. Once it returns its choice via Function Calling, the application retrieves the full, parameterized SQL query from the `query_template_library.py` file.
+
+This pattern was deliberately implemented to mitigate a phenomenon known as [**"Context Rot"**](https://research.trychroma.com/context-rot), where the performance and accuracy of LLMs can degrade as the input context window grows excessively large.
+
+By abstracting the complex SQL away from the model, we achieve several key benefits:
+
+*   **High Performance:** The model's task remains a simple and fast mapping exercise, not a search through thousands of lines of code.
+*   **Scalability:** The system can easily scale to support hundreds or even thousands of queries without degrading performance or hitting context window limits.
+*   **Maintainability:** SQL logic is managed as code in a structured Python file, not embedded within complex and hard-to-manage prompts.
+
+This "smart retrieval" approach is fundamental to making the application both efficient and robust.
+
 ## Deployment Guide
 
 Follow these steps to deploy the application and its CI/CD pipeline to your own Google Cloud project.
