@@ -3,6 +3,8 @@
 ![Main Logo](/images/ga4-chat-logo.png)
 # Speak with GA4: An AI-Powered Conversational App for BigQuery
 
+
+
 ## Core Problem
 
 While the Google Analytics 4 (GA4) interface is powerful, it often relies on approximation algorithms like [HyperLogLog++](https://support.google.com/analytics/answer/9191807?hl=en) to handle high-cardinality reports. This means that key metrics like user and session counts can be estimates rather than exact figures, which is unsuitable for precise analysis.
