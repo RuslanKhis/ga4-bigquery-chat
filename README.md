@@ -57,7 +57,7 @@ The application's architecture is designed for security, scalability, and ease o
 
 The user interaction process is orchestrated to translate natural language into precise data answers:
 
-1.  **Authentication:** When a business user accesses the application's URL, the request is first intercepted by **Identity-Aware Proxy (IAP)**. IAP handles authentication, ensuring only authorized Google accounts can access the service.
+1.  **Authentication:** When a business user accesses the application's URL, the request is first intercepted by **Identity-Aware Proxy (IAP)**. IAP handles authentication, ensuring only authorized Google accounts can access the service. Alternatively, if you choose to use simple authentication, you might be prompted to enter your login and password.
 2.  **Application Interface:** Once authenticated, the user interacts with the **Streamlit** application, which runs inside a Docker container on the serverless **Cloud Run** platform.
 3.  **Query Processing with Gemini:**
     *   The user submits a natural language question (e.g., "top 5 countries by users last week").
