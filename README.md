@@ -45,27 +45,40 @@ This solution is built entirely on Google Cloud services and popular open-source
 
 Feel free to connect if you have questions about the implementation or want to discuss AI solutions!
 
+## Architecture
 
+The application's architecture is designed for security, scalability, and ease of maintenance. It is composed of two primary workflows: the real-time **User Interaction Flow**, which handles user queries, and the automated **CI/CD Deployment Flow**, which manages code deployment.
 
+### User Interaction Flow
 
+![Main App Architecture](/images/App%20Diagram.png)
 
+The user interaction process is orchestrated to translate natural language into precise data answers:
 
-This repository contains a Streamlit application that allows you to chat with your Google Analytics 4 (GA4) BigQuery export data using natural language. It's powered by Google's Gemini API, which translates your questions into SQL queries, executes them, and provides answers in plain English.
+1.  **Authentication:** When a business user accesses the application's URL, the request is first intercepted by **Identity-Aware Proxy (IAP)**. IAP handles authentication, ensuring only authorized Google accounts can access the service.
+2.  **Application Interface:** Once authenticated, the user interacts with the **Streamlit** application, which runs inside a Docker container on the serverless **Cloud Run** platform.
+3.  **Query Processing with Gemini:**
+    *   The user submits a natural language question (e.g., "top 5 countries by users last week").
+    *   The Streamlit backend sends this question to the **Gemini model** hosted on **Vertex AI**.
+    *   Gemini uses **Function Calling** to parse the user's intent. It selects the `execute_template_query` function and extracts the necessary parameters (like dates or top N values) from the user's text.
+    *   The application receives the function call, finds the corresponding parameterized SQL in the **Query Templates library**, and populates it with the extracted parameters.
+    *   This finalized SQL query is executed against the GA4 dataset in **BigQuery**.
+4.  **Summarization and Response:**
+    *   BigQuery returns the query results (as JSON) to the Streamlit application.
+    *   The application sends these results back to Gemini as the output of the function call.
+    *   Gemini synthesizes the structured data into a concise, human-readable text summary.
+    *   The final summary is displayed to the user in the Streamlit chat interface, with an option to view the execution details (template chosen, parameters, etc.).
 
-The key feature is a setup script that automates the entire deployment process, including the creation of a secure, production-ready CI/CD pipeline on Google Cloud.
+### CI/CD Deployment Flow
 
-## Architecture Overview
+![CI/CD Diagram](/images/CI:CD%20pipeline%20arch.png)
 
-This project is designed for rapid, repeatable deployment. The workflow is as follows:
+The CI/CD pipeline is fully automated to enable rapid and reliable updates:
 
-1.  A developer pushes a code change to the `main` branch of their forked GitHub repository.
-2.  A Cloud Build trigger automatically starts a build process.
-3.  Cloud Build builds a Docker image of the Streamlit application.
-4.  The image is pushed to a private repository in Google Artifact Registry.
-5.  Cloud Build deploys the new image as a revision to a Cloud Run service.
-6.  The Cloud Run service is protected by Identity-Aware Proxy (IAP), ensuring only authorized users can access the application.
-
----
+1.  **Trigger:** The process begins when a **Developer** pushes code changes to the `main` branch of the **GitHub** repository.
+2.  **Build:** The push automatically triggers a **Cloud Build** job. Cloud Build checks out the code, builds a new **Docker image** based on the `Dockerfile`, and tags it.
+3.  **Store:** The newly built image is pushed to a private repository in **Google Artifact Registry** for secure storage and version management.
+4.  **Deploy:** Finally, Cloud Build deploys the new image as a new revision to the **Cloud Run** service. Cloud Run handles the update seamlessly, ensuring zero downtime for users.
 
 ## Deployment Guide
 
