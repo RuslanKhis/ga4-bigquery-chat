@@ -237,7 +237,10 @@ if [[ "$ENABLE_IAP" =~ ^[yY](es)?$ ]]; then
     gcloud run services add-iam-policy-binding "$SERVICE_NAME" --region="$REGION" --member="serviceAccount:$IAP_SA_EMAIL" --role="roles/run.invoker"
 
     print_info "Granting your account '$USER_EMAIL' access via IAP..."
-    gcloud iap web add-iam-policy-binding --resource-type=cloud-run --service="$SERVICE_NAME" --project="$PROJECT_ID" --region="$REGION" --member="user:$USER_EMAIL" --role="roles/iap.httpsResourceAccessor"
+    gcloud run services add-iam-policy-binding "$SERVICE_NAME" \
+    --region="$REGION" \
+    --member="user:$USER_EMAIL" \
+    --role="roles/run.invoker"
 else
     print_info "Skipping IAP configuration as requested."
 fi
