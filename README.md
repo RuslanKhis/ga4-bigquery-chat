@@ -3,6 +3,27 @@
 
 # Speak with GA4: A Self-Deploying Streamlit App for BigQuery
 
+## Core Problem
+
+While the Google Analytics 4 (GA4) interface is powerful, it often relies on approximation algorithms like [HyperLogLog++](https://support.google.com/analytics/answer/9191807?hl=en) to handle high-cardinality reports. This means that key metrics like user and session counts can be estimates rather than exact figures, which is unsuitable for precise analysis.
+
+To overcome this, Google provides the ability to export raw GA4 event data into BigQuery. While this provides access to granular, accurate data, it introduces a new set of significant challenges:
+
+*   **Query Complexity & Reinvention:** Google does not provide a standard library of queries to answer common business questions. This forces every organization to reinvent the wheel, spending significant time and resources developing, testing, and maintaining their own complex SQL queries.
+*   **The SQL Skills Gap:** The people who need the data most—marketers, product managers, and business leaders—typically do not possess the specialized SQL skills required to query the deeply nested and complex GA4 BigQuery schema.
+*   **Organizational Bottlenecks:** This skills gap creates a critical bottleneck. Business users are forced to rely on a small number of data specialists to answer their questions, leading to long wait times and slowing down the decision-making process.
+
+
+
+
+
+
+
+
+
+
+
+
 This repository contains a Streamlit application that allows you to chat with your Google Analytics 4 (GA4) BigQuery export data using natural language. It's powered by Google's Gemini API, which translates your questions into SQL queries, executes them, and provides answers in plain English.
 
 The key feature is a setup script that automates the entire deployment process, including the creation of a secure, production-ready CI/CD pipeline on Google Cloud.
